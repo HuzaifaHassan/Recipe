@@ -17,12 +17,16 @@ namespace Recipe.Controllers
             _ctx = ctx;
             _recipeDetailRepository = recipeDetailRepository;
         }
-        [HttpGet]
-        public IActionResult GetRecipes()
+        public async Task<IActionResult> GetOnceAsync()
+        {
+            return Ok();
+        }
+        [HttpGet] //api/recipe?pageSize=10&pageNumber=1
+        public async Task <IActionResult> GetListAsync([FromQuery]int pageSize,[FromQuery]int pageNumber)
         {
             // This is a placeholder for the actual implementation.
             // In a real application, you would retrieve recipes from a database or other data source.
-            return Ok(new[] { "Recipe1", "Recipe2", "Recipe3" });
+            return Ok(pageSize+""+pageNumber);
         }
         [HttpPost]
         public IActionResult CreateRecipe([FromQuery]RecipeModel _recipemodel)
