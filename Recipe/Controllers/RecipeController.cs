@@ -17,19 +17,21 @@ namespace Recipe.Controllers
             _ctx = ctx;
             _recipeDetailRepository = recipeDetailRepository;
         }
-        public async Task<IActionResult> GetOnceAsync()
+
+        [HttpGet("{recipeId:guid}")]
+        public async Task<IActionResult> GetOnceAsync([FromRoute] Guid recipeId)
         {
-            return Ok();
+            return Ok(recipeId);
         }
-        [HttpGet] //api/recipe?pageSize=10&pageNumber=1
-        public async Task <IActionResult> GetListAsync([FromQuery]int pageSize,[FromQuery]int pageNumber)
+
+        [HttpGet("list")]
+        public async Task<IActionResult> GetListAsync([FromQuery] int pageSize, [FromQuery] int pageNumber)
         {
-            // This is a placeholder for the actual implementation.
-            // In a real application, you would retrieve recipes from a database or other data source.
-            return Ok(pageSize+""+pageNumber);
+            return Ok($"{pageSize} {pageNumber}");
         }
+
         [HttpPost]
-        public IActionResult CreateRecipe([FromQuery]RecipeModel _recipemodel)
+        public async Task<IActionResult> CreateRecipe([FromBody] RecipeModel _recipemodel)
         {
             // This is a placeholder for the actual implementation.
             // In a real application, you would save the recipe to a database or other data source.
@@ -37,8 +39,18 @@ namespace Recipe.Controllers
             var businessLogic = new RecipeDetailRepository(_ctx);
             businessLogic.AddRecipe(_recipemodel);
 
-            return Ok();
+            return Ok(businessLogic);
         }
-      
+        public async Task<IActionResult> PutAsync([FromBody] RecipeModel _recipemodel)
+        {
+            return Ok(_recipemodel);
+        }
+        [HttpDelete("{recipeid}")]
+        public async Task<IActionResult> DeleteAsync(Guid recipeId)
+        {
+            // This is a placeholder for the actual implementation.
+            // In a real application, you would delete the recipe from a database or other data source.
+            return Ok(recipeId);
+        }
     }
 }
